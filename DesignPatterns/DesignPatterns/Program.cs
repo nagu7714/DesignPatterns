@@ -1,6 +1,8 @@
-﻿using DesignPatterns.Facade;
+﻿using DesignPatterns.Decorator;
+using DesignPatterns.Facade;
 using DesignPatterns.Factory;
 using DesignPatterns.Prototype;
+using DesignPatterns.Proxy;
 using System;
 
 namespace DesignPatterns
@@ -75,12 +77,43 @@ namespace DesignPatterns
             facadeForClient.GetGarlicBread();
             facadeForClient.GetCheesyGarlicBread();
         }
+
+        static void InvokeDecorator()
+        {
+            // Create ConcreteComponent and two Decorators
+            var compoment = new ConcreteComponent();
+            compoment.Operation();
+
+            var decorateA = new ConcreteDecoratorA(compoment);
+
+            decorateA.Operation();
+
+            var decorateB = new ConcreteDecoratorB(compoment);
+
+            decorateB.Operation();
+        }
+
+        static void InvokeProxy()
+        {
+            // Create math proxy
+            MathProxy proxy = new MathProxy();
+            // Do the math
+            Console.WriteLine("4 + 2 = " + proxy.Add(4, 2));
+            Console.WriteLine("4 - 2 = " + proxy.Sub(4, 2));
+            Console.WriteLine("4 * 2 = " + proxy.Mul(4, 2));
+            Console.WriteLine("4 / 2 = " + proxy.Div(4, 2));
+        }
         static void Main(string[] args)
         {
             //InvokeFacade();
 
             //InvokeFactory();
-            InvokePrototype();
+
+            //InvokePrototype();
+
+            //InvokeDecorator();
+
+            InvokeProxy();
 
             Console.ReadKey();
         }
