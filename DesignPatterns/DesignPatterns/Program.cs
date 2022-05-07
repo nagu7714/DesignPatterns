@@ -3,6 +3,7 @@ using DesignPatterns.Facade;
 using DesignPatterns.Factory;
 using DesignPatterns.Prototype;
 using DesignPatterns.Proxy;
+using DesignPatterns.Singleton;
 using System;
 
 namespace DesignPatterns
@@ -11,30 +12,19 @@ namespace DesignPatterns
     {
         static void InvokeFactory()
         {
-            CardFactory factory = null;
-            Console.Write("Enter the card type you would like to visit: ");
-            string car = Console.ReadLine();
-
-            switch (car.ToLower())
+           // Note: constructors call Factory Method
+            Document[] documents = new Document[2];
+            documents[0] = new Resume();
+            documents[1] = new Report();
+            // Display document pages
+            foreach (Document document in documents)
             {
-                case "moneyback":
-                    factory = new MoneyBackFactory(50000, 0);
-                    break;
-                case "titanium":
-                    factory = new TitaniumFactory(100000, 500);
-                    break;
-                case "platinum":
-                    factory = new PlatinumFactory(500000, 1000);
-                    break;
-                default:
-                    break;
+                Console.WriteLine("\n" + document.GetType().Name + "--");
+                foreach (Page page in document.Pages)
+                {
+                    Console.WriteLine(" " + page.GetType().Name);
+                }
             }
-
-            CreditCard creditCard = factory.GetCard();
-            Console.WriteLine("\nYour card details are below : \n");
-            Console.WriteLine("Card Type: {0}\nCredit Limit: {1}\nAnnual Charge: {2}",
-                creditCard.CardType, creditCard.CreditLimit, creditCard.AnnualCharge);
-            Console.ReadKey();
         }
 
         static void InvokePrototype()
@@ -103,17 +93,40 @@ namespace DesignPatterns
             Console.WriteLine("4 * 2 = " + proxy.Mul(4, 2));
             Console.WriteLine("4 / 2 = " + proxy.Div(4, 2));
         }
+
+        static void InvokeSingleton()
+        {
+            LoadBalancer b1 = LoadBalancer.GetLoadBalancer();
+            LoadBalancer b2 = LoadBalancer.GetLoadBalancer();
+            LoadBalancer b3 = LoadBalancer.GetLoadBalancer();
+            LoadBalancer b4 = LoadBalancer.GetLoadBalancer();
+            // Same instance?
+            if (b1 == b2 && b2 == b3 && b3 == b4)
+            {
+                Console.WriteLine("Same instance\n");
+            }
+            // Load balance 15 server requests
+            LoadBalancer balancer = LoadBalancer.GetLoadBalancer();
+            for (int i = 0; i < 15; i++)
+            {
+                string server = balancer.Server;
+                Console.WriteLine("Dispatch Request to: " + server);
+            }
+
+        }
         static void Main(string[] args)
         {
             //InvokeFacade();
 
-            //InvokeFactory();
+            InvokeFactory();
 
             //InvokePrototype();
 
             //InvokeDecorator();
 
-            InvokeProxy();
+            //InvokeProxy();
+
+            //InvokeSingleton();
 
             Console.ReadKey();
         }
