@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/DesignPatterns/.vs/DesignPatterns/v16
+/DesignPatterns/DesignPatterns/bin/Debug/netcoreapp3.1
+/DesignPatterns/DesignPatterns/obj
